@@ -275,3 +275,11 @@ gulp.task('default', ['build'], function (cb) {
 	runSequence('monitorServer', 'watch', cb);
 });
 
+
+gulp.task('crud', function() {
+	console.log('CRUD is running');
+	// 1) Pasar segon parametre (nom de la taula)
+	// 2) Tema de la configuració de la conexio?
+	// 3) Creació de les carpetes/arxius
+	// 4) Preguntar ruta de desti?
+});
