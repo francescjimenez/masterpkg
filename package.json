@@ -31,7 +31,9 @@
     "pretty-hrtime": "1.0.0",
     "rimraf": "2.2.8",
     "run-sequence": "1.0.2",
-    "underscore": "1.8.2"
+    "underscore": "1.8.2",
+    "yargs": "3.29.0",
+    "gulp-prompt": "0.1.2"
   },
   "optionalDependencies": {
     "node-windows": "^0.1.7"

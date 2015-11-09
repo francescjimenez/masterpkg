@@ -20,6 +20,10 @@ var glob = require("glob");
 var jade = require('jade');
 var mkdirp = require('mkdirp');
 
+// NOUS: argv--> demanar flags desde consola, prompt--> preguntar variables
+var argv = require('yargs').argv;
+var prompt = require('gulp-prompt');
+
 var browserify = require('browserify');
 
 var config = require('./core/config.js');
@@ -277,9 +281,45 @@ gulp.task('default', ['build'], function (cb) {
 
 
 gulp.task('crud', function() {
-	console.log('CRUD is running');
-	// 1) Pasar segon parametre (nom de la taula)
-	// 2) Tema de la configuració de la conexio?
-	// 3) Creació de les carpetes/arxius
-	// 4) Preguntar ruta de desti?
+	// 1) Pasar parametre (nom de la taula)
+    if (argv.table) {
+		console.log('\n\x1b[32m%s\x1b[0m', 'Crear CRUD per la taula: '+argv.table);
+		// 2) Tema de la configuració de la conexio?
+		gulp.src('').pipe(
+			prompt.prompt([{
+				type: 'input',
+				name: 'username',
+				message: 'Please enter your mysql username'
+			}, {
+				type: 'password',
+				name: 'password',
+				message: 'Please enter your mysql password'
+			}, {
+				type: 'input',
+				name: 'databaseName',
+				message: 'Enter the name of the database to create'
+			}], function(response) {
+				var shellCommand;
+				/*
+				FEM LA CONEXIO
+				if (response.password == '') {
+					shellCommand = util.format('mysql -u %s -e "CREATE DATABASE %s"', response.username, response.databaseName)
+				} else {
+					shellCommand = util.format('mysql -u %s -p %s -e "CREATE DATABASE %s"', response.username, response.password, response.databaseName);
+				}
+				EXECUTEM LA QUERY PER OBTENIR LA ESTRUCTURA DE LA TAULA
+
+				gulp.src('').pipe(shell([shellCommand]));
+				*/
+
+				console.log('\n\x1b[32m%s\x1b[0m', 'Estructura encontrada!');
+
+			}));
+			// 3) Creació de les carpetes/arxius
+		// 4) Preguntar ruta de desti?
+
+	}else{
+		console.log('\n\x1b[31m%s\x1b[0m','Introduce el nombre de la tabla para crear el crud: --table=NOMBRE_TABLA');
+    }
+
 });
