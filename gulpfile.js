@@ -23,6 +23,7 @@ var mkdirp = require('mkdirp');
 // NOUS: argv--> demanar flags desde consola, prompt--> preguntar variables
 var argv = require('yargs').argv;
 var prompt = require('gulp-prompt');
+var util = require('util');
 
 var browserify = require('browserify');
 
@@ -291,33 +292,29 @@ gulp.task('crud', function() {
 				name: 'username',
 				message: 'Please enter your mysql username'
 			}, {
-				type: 'password',
-				name: 'password',
-				message: 'Please enter your mysql password'
-			}, {
 				type: 'input',
 				name: 'databaseName',
 				message: 'Enter the name of the database to create'
 			}], function(response) {
 				var shellCommand;
-				/*
-				FEM LA CONEXIO
-				if (response.password == '') {
-					shellCommand = util.format('mysql -u %s -e "CREATE DATABASE %s"', response.username, response.databaseName)
-				} else {
-					shellCommand = util.format('mysql -u %s -p %s -e "CREATE DATABASE %s"', response.username, response.password, response.databaseName);
-				}
-				EXECUTEM LA QUERY PER OBTENIR LA ESTRUCTURA DE LA TAULA
+                shellCommand = util.format('mysql -u %s -p %s -e "DESCRIBE %s"', response.username, response.databaseName, argv.table);
+                // EXECUTEM LA QUERY PER OBTENIR LA ESTRUCTURA DE LA TAULA
+				var prova = gulp.src('').pipe(shell([shellCommand]));
 
-				gulp.src('').pipe(shell([shellCommand]));
-				*/
+                console.log('\n\x1b[32m%s\x1b[0m', 'Estructura encontrada!');
 
-				console.log('\n\x1b[32m%s\x1b[0m', 'Estructura encontrada!');
+                // 3) Creació de les carpetes/arxius
 
+
+                // 4) Preguntar ruta de desti?
+                prompt.prompt([{
+                    type: 'input',
+                    name: 'desti',
+                    message: 'Please enter the destination path for module crud'
+                }, ], function(response) {
+                    console.log('Moure els fitxers a: '+response.desti);
+                });
 			}));
-			// 3) Creació de les carpetes/arxius
-		// 4) Preguntar ruta de desti?
-
 	}else{
 		console.log('\n\x1b[31m%s\x1b[0m','Introduce el nombre de la tabla para crear el crud: --table=NOMBRE_TABLA');
     }
